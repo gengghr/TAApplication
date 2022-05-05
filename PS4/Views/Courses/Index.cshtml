@@ -1,0 +1,182 @@
+﻿@model IEnumerable<PS4.Models.Course>
+@*
+    Author: Haoran Geng
+    Partner:   None
+    Date:      9 / 30 / 2021
+    Course:    CS 4540, University of Utah, School of Computing
+    Copyright: CS 4540 and Haoran Geng - This work may not be copied for use in Academic Coursework.
+
+
+    File Contents:
+    List page.
+    Admin will see note and edit it.
+    Edit and Delete button are hide for Applicate and Prof.
+*@
+@{
+    ViewData["Title"] = "Index";
+}
+@using Microsoft.AspNetCore.Identity
+@using PS4.Areas.Identity.Data
+@inject SignInManager<TAUser> SignInManager
+@inject UserManager<TAUser> UserManager
+
+
+
+@{
+    if (SignInManager.IsSignedIn(User))
+    {
+        var user = await UserManager.FindByNameAsync(User.Identity.Name);
+        var role = await UserManager.GetRolesAsync(user);
+        var count = 0;
+
+
+        <h1>Index</h1>
+
+        if (role.Contains("Administrator"))
+        {
+            <p>
+                <a asp-action="Create">Create New</a>
+            </p>
+        }
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Title)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Department)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CourseID)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Semester)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Year)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Credits)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Section)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Description)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Pid)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.PName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Time)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Location)
+                    </th>
+                    @if (role.Contains("Administrator"))
+                    {
+                        <th>
+                            @Html.DisplayNameFor(model => model.Note)
+                        </th>
+                    }
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <a asp-action="Details" asp-route-id="@item.CourseID">@Html.DisplayFor(modelItem => item.Title)</a>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Department)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CourseID)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Semester)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Year)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Credits)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Section)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Description)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Pid)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Time)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Location)
+                        </td>
+                        @if (role.Contains("Administrator"))
+                        {
+                            <td>
+                                <!-- <input type="text" id="note_box" value="@Html.DisplayFor(modelItem => item.Note)" />  -->
+                                @Html.DisplayFor(modelItem => item.Note)<br />
+                                <input type="button" id="note_button_@count" value="Edit" onclick="update_note('@item.CourseID','note_button_@count','@item.Note')" />
+                            </td>
+                        }
+                        @if (role.Contains("Administrator"))
+                        {
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@item.CourseID">Edit</a> |
+                                <a asp-action="Delete" asp-route-id="@item.CourseID">Delete</a>
+                            </td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+}
+@*{
+        cid: Class id
+        nid: Note button id
+        note: Note content
+    }*@
+<script>
+    function update_note(cid, nid, note) {
+        var result = window.prompt("Note", note);
+        if (result == null || result == "") {
+            return;
+        }
+        else {
+            var URL = "/Courses/ChangeNote";
+            var DATA = {
+                id: cid,
+                note: result
+            };
+            $.post(URL, DATA)
+                .done(function (result) {
+                    console.log("note change sucess");
+                })
+                .fail(function (result) {
+                    console.log("note change fail");
+                })
+                .always(function (result) {
+
+                });
+
+        }
+        setTimeout('window.location.reload()', 10);//wait, ensure the database changes result there
+
+    }
+</script>

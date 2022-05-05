@@ -1,0 +1,136 @@
+﻿@model IEnumerable<PS4.Models.Applicant>
+
+@{
+    ViewData["Title"] = "List";
+}
+@{
+/*
+Author: Haoran Geng
+Partner:   None
+Date:      9 / 30 / 2021
+Course:    CS 4540, University of Utah, School of Computing
+Copyright: CS 4540 and Haoran Geng - This work may not be copied for use in Academic Coursework.
+
+
+File Contents:
+This page is an application List page.
+Basic inf of applicants
+uId, name are linked to details page.
+
+*/
+}
+
+<h1>List</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.uID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Phone)
+            </th>
+            @*<th>
+                    @Html.DisplayNameFor(model => model.Address)
+                </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.CurrentDegree)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CurrentProgram)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GPA)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WorkHours)
+            </th>
+            @*<th>
+                    @Html.DisplayNameFor(model => model.Statement)
+                </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.EnglishFluency)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Semesters)
+            </th>
+            @*<th>
+                    @Html.DisplayNameFor(model => model.LinkedIn)
+                </th>*@
+            @*<th>
+                    @Html.DisplayNameFor(model => model.Resume)
+                </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.CreationDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.ID"> @Html.DisplayFor(modelItem => item.uID)</a>
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.ID"> @Html.DisplayFor(modelItem => item.LastName)</a>
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.ID"> @Html.DisplayFor(modelItem => item.FirstName)</a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Phone)
+                </td>
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.Address)
+                    </td>*@
+                <td>
+                    @Html.DisplayFor(modelItem => item.CurrentDegree)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CurrentProgram)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.GPA)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.WorkHours)
+                </td>
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.Statement)
+                    </td>*@
+                <td>
+                    @Html.DisplayFor(modelItem => item.EnglishFluency)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Semesters)
+                </td>
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.LinkedIn)
+                    </td>*@
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.Resume)
+                    </td>*@
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreationDate)
+                </td>
+                @*<td>
+                        <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                    </td>*@
+            </tr>
+        }
+    </tbody>
+</table>

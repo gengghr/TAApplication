@@ -1,0 +1,187 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@{
+/*
+Author: Haoran Geng
+Partner:   None
+Date:      8 / 30 / 2021
+Course:    CS 4540, University of Utah, School of Computing
+Copyright: CS 4540 and Haoran Geng - This work may not be copied for use in Academic Coursework.
+
+
+File Contents:
+The Administrator index page.
+Allow Administrators to manage roles.
+*/
+}
+
+@using Microsoft.AspNetCore.Identity;
+@using PS4.Areas.Identity.Data;
+@using PS4.Controllers;
+@using PS4.Data;
+@inject RoleManager<IdentityRole> rm;
+@inject UserManager<TAUser> um;
+
+<head>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
+
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    @*Sweet Alert 2 *@
+
+</head>
+<h1>Permission Table</h1>
+@{
+
+    var users = um.Users.ToArray();
+    //var roles = rm.Roles.FirstOrDefault();
+    //var a = rm.FindByIdAsync(users.First().Id);
+    //var b = um.IsInRoleAsync(users.First(), "Administrator");
+
+    var b = await um.IsInRoleAsync(users.First(), "Applicant");
+    var count = 0;
+}
+
+
+<script>
+
+    $(document).ready(function () {
+        $.noConflict();
+        $('#example').DataTable();
+    });
+
+</script>
+
+
+
+<table id="example" class="display">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Administrator</th>
+            <th>Professor</th>
+            <th>Applicant</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in users)
+        {
+            <tr>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.UserName"> @Html.DisplayFor(modelItem => item.UserName)</a>
+                </td>
+                <td>
+                    @{
+
+                        var isad1 = await um.IsInRoleAsync(item, "Administrator");
+                        var isad = isad1 ? "checked" : "";
+                    }
+                    <label class="switch">
+                        <input id="admin_switch_@count" onchange="doit('@item.Id', 'admin_switch_@count', 'Administrator')" type="checkbox" @isad>
+                        <span class="slider round"></span>
+
+                    </label>
+                </td>
+                <td>
+                    @{
+
+                        var isprof1 = await um.IsInRoleAsync(item, "Professor");
+                        var isprof = isprof1 ? "checked" : "";
+                    }
+                    <label class="switch">
+                        <input id="professor_switch_@count" onchange="doit('@item.Id', 'professor_switch_@count', 'Professor')" type="checkbox" @isprof>
+                        <span class="slider round"></span>
+                    </label>
+
+                </td>
+                <td>
+
+                    @{
+
+                        var isap1 = await um.IsInRoleAsync(item, "Applicant");
+                        var isap = isap1 ? "checked" : "";
+                    }
+                    <label class="switch">
+                        <input id="applicant_switch_@count" onchange="doit('@item.Id', 'applicant_switch_@count', 'Applicant')" type="checkbox" @isap>
+                        <span class="slider round"></span>
+                    </label>
+
+                    <script>
+
+                    @*changeCheckBox(@isad, "admin_switch_@count");
+                    changeCheckBox(@isprof, "professor_switch_@count");
+                    changeCheckBox(@isap, "applicant_switch_@count");*@
+                    </script>
+                </td>
+            </tr>
+
+            count++;
+
+        }
+    </tbody>
+</table>
+
+<script>
+    /*Parameters:
+         * id : user id
+         * role: the target role
+         * boxId: the checkbox element id
+         */
+    function doit(userId, boxId, role) {
+        var bId = '#' + boxId;
+        var check = $(bId).prop("checked");
+        var URL = "/Administrator/ChangeRole";
+        var DATA = {
+            id: userId,
+            role: role,
+            add: check
+        };
+        Swal.fire({
+            title: 'Do you want to change the role?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, change it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                //if changed, change the database
+                $.post(URL, DATA)
+                    .done(function (result) {
+                        console.log("role change sucess");
+                    })
+                    .fail(function (result) {
+                        console.log("role change fail");
+                    })
+                    .always(function (result) {
+
+                    });
+                Swal.fire(
+
+                    'Done!',
+                    'The role has been changed.',
+                    'success'
+                )
+            }
+            else {
+                $(bId).prop("checked", !check) //if no change, roll back
+            }
+        })
+
+        //if (check) {
+        //    // alert("checked");
+
+        //}
+
+        //else {
+        //    //alert("uncheck");
+        //}
+    }
+
+
+</script>
+

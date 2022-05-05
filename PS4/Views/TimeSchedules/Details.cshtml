@@ -1,0 +1,48 @@
+﻿@model PS4.Models.TimeSchedule
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>TimeSchedule</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.startTime)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.startTime)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.endTime)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.endTime)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.isOpen)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.isOpen)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Applicant)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Applicant.CurrentProgram)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Course)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Course.Department)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.timeScheduleID">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

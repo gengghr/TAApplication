@@ -1,0 +1,95 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    /*
+    Author: Haoran Geng
+    Partner:   None
+    Date:      8 / 30 / 2021
+    Course:    CS 4540, University of Utah, School of Computing
+    Copyright: CS 4540 and Haoran Geng - This work may not be copied for use in Academic Coursework.
+
+
+    File Contents:
+    This is a home page.
+
+    9/12/2021
+    Adding bootstrap, change UI
+    */
+}
+
+<header class="masthead">
+    <div class="container position-relative">
+        <div class="row justify-content-center">
+            <div class="col-xl-6">
+                <div class="text-center text-white">
+                    <!-- Page heading-->
+                    <h1 class="mb-5">Welcome to Teaching Assistant System</h1>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- Icons Grid-->
+<section class="features-icons bg-light text-center">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
+                    <a class="homeIcons"><img src="~/images/teacher_icon.png" width="72" height="72" /></a>
+                    <h3>Professor</h3>
+                    <p class="lead mb-0">If you are a professor, looking for theaching assistant</p>
+                    <p></p>
+                    <p><a class="btn btn-secondary" href="/Applications/Index" role="button">View details &raquo;</a></p>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
+                    <a class="homeIcons"><img src="~/images/student_icon.png" width="72" height="72" /></a>
+                    <h3>Student</h3>
+                    <p class="lead mb-0">If you are a student, start a new application</p>
+                    <p></p>
+                    <p><a class="btn btn-secondary" asp-area="" asp-controller="Applications" asp-action="Create" role="button">Start Application &raquo;</a></p>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="features-icons-item mx-auto mb-0 mb-lg-3">
+                    <a class="homeIcons"><img src="~/images/form_icon.png" width="72" height="72" /></a>
+                    <h3>Applicants</h3>
+                    <p class="lead mb-0">Show all applicants, courses, stats in details</p>
+                    <p></p>
+                    <p><a class="btn btn-secondary" href="/Applications/Index" role="button">View details &raquo;</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Image Showcases-->
+<section class="showcase">
+    <div class="container-fluid p-0">
+        <div class="row g-0">
+            <div class="col-lg-6 order-lg-2 text-white showcase-img" style="background-image: url('images/write-an-assignment.jpg')"></div>
+            <div class="col-lg-6 order-lg-1 my-auto showcase-text">
+                <h2>TAs</h2>
+                <p class="lead mb-0">
+                    A teaching assistant or teacher's aide (TA) or education assistant (EA) or team teacher (TT) is an individual who assists a teacher with instructional responsibilities.
+                    TAs include graduate teaching assistants (GTAs), who are graduate students; undergraduate teaching assistants (UTAs), who are undergraduate students; secondary school TAs, who are either high school students or adults;
+                    and elementary school TAs, who are adults (also known as paraprofessional educators or teacher's aides).
+                </p>
+            </div>
+        </div>
+        <div class="row g-0">
+            <div class="col-lg-6 text-white showcase-img" style="background-image: url('images/teach_learn.jpg') "></div>
+            <div class="col-lg-6 my-auto showcase-text">
+                <h2>Teaching & Learning</h2>
+                <p class="lead mb-0">
+                    In the field of pedagogy, learning by teaching (German: Lernen durch Lehren, short LdL) is a method of teaching in which students are made to learn material and prepare lessons to teach it to the other students.
+                    There is a strong emphasis on acquisition of life skills along with the subject matter. This method was originally defined by Jean-Pol Martin in the 1980s.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+<p></p>
+
+
+

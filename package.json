@@ -1,0 +1,25 @@
+{
+  "name": "ps4",
+  "version": "1.0.0",
+  "description": "TAAPP",
+  "main": "index.js",
+  "dependencies": {
+    "datatables.net": "^1.11.3",
+    "datatables.net-dt": "^1.11.3",
+    "jquery": "^3.6.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/uofu-cs4540-fall2021/ps4---new-ta-application-hg-ps4.git"
+  },
+  "author": "Haoran Geng",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/uofu-cs4540-fall2021/ps4---new-ta-application-hg-ps4/issues"
+  },
+  "homepage": "https://github.com/uofu-cs4540-fall2021/ps4---new-ta-application-hg-ps4#readme"
+}

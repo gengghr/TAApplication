@@ -1,0 +1,272 @@
+﻿@model PS4.Models.Applicant
+@using Microsoft.AspNetCore.Identity
+@using PS4.Areas.Identity.Data
+@inject SignInManager<TAUser> SignInManager
+@inject UserManager<TAUser> UserManager
+@{
+    ViewData["Title"] = "Edit";
+}
+@{
+    /*
+    Author: Haoran Geng
+    Partner:   None
+    Date:      9 / 30 / 2021
+    Course:    CS 4540, University of Utah, School of Computing
+    Copyright: CS 4540 and Haoran Geng - This work may not be copied for use in Academic Coursework.
+
+
+    File Contents:
+    This page is an application Edit page.
+    Edit applicant info using bootstrap.
+
+    10/19
+    An applicate can only view or edit his own data
+    Administrator can view and edit the page
+    Professor cant view the page
+    */
+}
+
+@if (SignInManager.IsSignedIn(User))
+{
+    var user = await UserManager.FindByNameAsync(User.Identity.Name);
+    var role = await UserManager.GetRolesAsync(user);
+
+    if (role.Contains("Administrator"))
+    {
+        <h1>Edit</h1>
+
+        <h4>Applicant</h4>
+        <hr />
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ID" />
+            <!--Name Info-->
+            <div class="row">
+                <div class="form-group  col-md-6">
+                    <label asp-for="LastName" class="control-label application_bold"></label>
+                    <input asp-for="LastName" class="form-control" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+                <div class="form-group  col-md-6">
+                    <label asp-for="FirstName" class="control-label application_bold"></label>
+                    <input asp-for="FirstName" class="form-control" />
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+            </div>
+            <!--Phone Info-->
+            <div class="form-group">
+                <label asp-for="Phone" class="control-label application_bold"></label>
+                <input asp-for="Phone" class="form-control" />
+                <span asp-validation-for="Phone" class="text-danger"></span>
+            </div>
+
+            <!--Address-->
+            <div class="form-group ">
+                <label asp-for="Address" class="control-label application_bold"></label>
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            <!--Academic Info-->
+            <div class="row ">
+                <div class="form-group col-md-6">
+                    <label asp-for="CurrentDegree" class="control-label application_bold"></label>
+                    <select asp-for="CurrentDegree" class="form-control" asp-items="Html.GetEnumSelectList<Degree>()"></select>
+                    <span asp-validation-for="CurrentDegree" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="CurrentProgram" class="control-label application_bold"></label>
+                    <input asp-for="CurrentProgram" class="form-control" />
+                    <span asp-validation-for="CurrentProgram" class="text-danger"></span>
+                </div>
+            </div>
+            <!--GPA & Hours-->
+            <div class="row ">
+                <div class="form-group col-md-6">
+                    <label asp-for="GPA" class="control-label application_bold"></label>
+                    <input asp-for="GPA" class="form-control" />
+                    <span asp-validation-for="GPA" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="WorkHours" class="control-label application_bold"></label>
+                    <input asp-for="WorkHours" class="form-control" />
+                    <span asp-validation-for="WorkHours" class="text-danger"></span>
+                </div>
+            </div>
+            <!--EnglishFluency-->
+            <div class="form-group ">
+                <label asp-for="EnglishFluency" class="control-label application_bold"></label>
+                <select asp-for="EnglishFluency" class="form-control" asp-items="Html.GetEnumSelectList<EnglishFluency>()"></select>
+                <span asp-validation-for="EnglishFluency" class="text-danger"></span>
+            </div>
+            <!--Semesters-->
+            <div class="form-group ">
+                <label asp-for="Semesters" class="control-label application_bold"></label>
+                <input asp-for="Semesters" class="form-control" />
+                <span asp-validation-for="Semesters" class="text-danger"></span>
+            </div>
+            <!--LinkedIn-->
+            <div class="form-group ">
+                <label asp-for="LinkedIn" class="control-label application_bold"></label>
+                <input asp-for="LinkedIn" class="form-control" />
+                <span asp-validation-for="LinkedIn" class="text-danger"></span>
+            </div>
+            <!--CreationDate-->
+            <div class="form-group ">
+                <label asp-for="CreationDate" class="control-label application_bold"></label>
+                <input asp-for="CreationDate" class="form-control" />
+                <span asp-validation-for="CreationDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label application_bold"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <!--Statement-->
+            <div class="form-group ">
+                <label asp-for="Statement" class="control-label application_bold"></label>
+                <textarea asp-for="Statement" class="form-control" rows="4"> </textarea>
+                <span asp-validation-for="Statement" class="text-danger"></span>
+            </div>
+            <!--Resume-->
+            <div class="form-group">
+                <label asp-for="Resume" class="control-label application_bold"></label>
+                <input type="file" asp-for="Resume" class="form-control col-md-4" id="customFile" />
+                <span asp-validation-for="Resume" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+
+
+        <div>
+            <a asp-action="List">Back to List</a>
+        </div>
+    }
+    else if (role.Contains("Applicant"))
+    {
+        if (user.Id != Model.UserId)
+        {
+            <h1>You cannot edit other student's application</h1>
+            <p><a asp-area="" asp-controller="Applications" asp-action="Index">Go back to index</a></p>
+        }
+        else
+        {
+            <h1>Edit</h1>
+
+            <h4>Applicant</h4>
+            <hr />
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="ID" />
+                <!--Name Info-->
+                <div class="row">
+                    <div class="form-group  col-md-6">
+                        <label asp-for="LastName" class="control-label application_bold"></label>
+                        <input asp-for="LastName" class="form-control" />
+                        <span asp-validation-for="LastName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group  col-md-6">
+                        <label asp-for="FirstName" class="control-label application_bold"></label>
+                        <input asp-for="FirstName" class="form-control" />
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                    </div>
+                </div>
+                <!--Phone Info-->
+                <div class="form-group">
+                    <label asp-for="Phone" class="control-label application_bold"></label>
+                    <input asp-for="Phone" class="form-control" />
+                    <span asp-validation-for="Phone" class="text-danger"></span>
+                </div>
+
+                <!--Address-->
+                <div class="form-group ">
+                    <label asp-for="Address" class="control-label application_bold"></label>
+                    <input asp-for="Address" class="form-control" />
+                    <span asp-validation-for="Address" class="text-danger"></span>
+                </div>
+                <!--Academic Info-->
+                <div class="row ">
+                    <div class="form-group col-md-6">
+                        <label asp-for="CurrentDegree" class="control-label application_bold"></label>
+                        <select asp-for="CurrentDegree" class="form-control" asp-items="Html.GetEnumSelectList<Degree>()"></select>
+                        <span asp-validation-for="CurrentDegree" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="CurrentProgram" class="control-label application_bold"></label>
+                        <input asp-for="CurrentProgram" class="form-control" />
+                        <span asp-validation-for="CurrentProgram" class="text-danger"></span>
+                    </div>
+                </div>
+                <!--GPA & Hours-->
+                <div class="row ">
+                    <div class="form-group col-md-6">
+                        <label asp-for="GPA" class="control-label application_bold"></label>
+                        <input asp-for="GPA" class="form-control" />
+                        <span asp-validation-for="GPA" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="WorkHours" class="control-label application_bold"></label>
+                        <input asp-for="WorkHours" class="form-control" />
+                        <span asp-validation-for="WorkHours" class="text-danger"></span>
+                    </div>
+                </div>
+                <!--EnglishFluency-->
+                <div class="form-group ">
+                    <label asp-for="EnglishFluency" class="control-label application_bold"></label>
+                    <select asp-for="EnglishFluency" class="form-control" asp-items="Html.GetEnumSelectList<EnglishFluency>()"></select>
+                    <span asp-validation-for="EnglishFluency" class="text-danger"></span>
+                </div>
+                <!--Semesters-->
+                <div class="form-group ">
+                    <label asp-for="Semesters" class="control-label application_bold"></label>
+                    <input asp-for="Semesters" class="form-control" />
+                    <span asp-validation-for="Semesters" class="text-danger"></span>
+                </div>
+                <!--LinkedIn-->
+                <div class="form-group ">
+                    <label asp-for="LinkedIn" class="control-label application_bold"></label>
+                    <input asp-for="LinkedIn" class="form-control" />
+                    <span asp-validation-for="LinkedIn" class="text-danger"></span>
+                </div>
+                <!--CreationDate-->
+                <div class="form-group ">
+                    <label asp-for="CreationDate" class="control-label application_bold"></label>
+                    <input asp-for="CreationDate" class="form-control" />
+                    <span asp-validation-for="CreationDate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Email" class="control-label application_bold"></label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <!--Statement-->
+                <div class="form-group ">
+                    <label asp-for="Statement" class="control-label application_bold"></label>
+                    <textarea asp-for="Statement" class="form-control" rows="4"> </textarea>
+                    <span asp-validation-for="Statement" class="text-danger"></span>
+                </div>
+                <!--Resume-->
+                <div class="form-group">
+                    <label asp-for="Resume" class="control-label application_bold"></label>
+                    <input type="file" asp-for="Resume" class="form-control col-md-4" id="customFile" />
+                    <span asp-validation-for="Resume" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+            </form>
+
+
+            <div>
+                <a asp-action="List">Back to List</a>
+            </div>
+        }
+
+    }
+}
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

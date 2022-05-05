@@ -1,0 +1,97 @@
+﻿@model IEnumerable<PS4.Models.Applicant>
+@{
+    /*
+    Author: Haoran Geng
+    Partner:   None
+    Date:      9 / 30 / 2021
+    Course:    CS 4540, University of Utah, School of Computing
+    Copyright: CS 4540 and Haoran Geng - This work may not be copied for use in Academic Coursework.
+
+
+    File Contents:
+    This page is an application index page.
+    A total number of applicants, average GPA, and fulltime count.
+
+    */
+}
+@using Microsoft.AspNetCore.Identity
+@using PS4.Areas.Identity.Data
+@inject SignInManager<TAUser> SignInManager
+@inject UserManager<TAUser> UserManager
+
+
+@{
+    ViewData["Title"] = "Index";
+    var count = Model.Count();//numbers of applicats
+    double totalGPA = 0;
+    int fulltimeCount = 0;
+    foreach (var student in Model)
+    {
+        totalGPA += student.GPA;
+        if (student.WorkHours == 20)
+        {
+            fulltimeCount++;
+        }
+    }
+    double avgGPA = totalGPA / count;
+
+
+
+}
+
+@if (SignInManager.IsSignedIn(User))
+{
+    var user = await UserManager.FindByNameAsync(User.Identity.Name);
+    var role = await UserManager.GetRolesAsync(user);
+
+    if (role.Contains("Administrator"))
+    {
+        <h1>Index</h1>
+
+        <b>Applicant Number:</b>
+        <br />
+        <p>Total applicants number is @count</p>
+        <p><b>Average GPA: </b> @avgGPA</p>
+        <p><b>Willing works as a fulltime (20 hours): </b>@fulltimeCount</p>
+        <a asp-area="" asp-controller="Applications" asp-action="List">Go back to applications List</a>
+    }
+    else if (role.Contains("Professor"))
+    {
+        <h1>You are not an applicant. Get lost? </h1>
+    }
+    else if (role.Contains("Applicant"))
+    {
+        var id = -1;
+        foreach (var student in Model)
+        {
+            if (student.UserId == user.Id)
+            {
+                id = student.ID;
+            }
+        }
+
+        <h1>If you are looking for</h1>
+        if (id == -1)
+        {
+        <p>
+            <b>Create</b> your application? <a asp-area="" asp-controller="Applications" asp-action="Create">Start your application here</a>
+        </p>
+        }
+        else
+        {
+        <p>
+            <b>Edit</b> your application? <a asp-area="" asp-controller="Applications" asp-action="Edit" asp-route-id="@id">Edit</a>
+        </p>
+        }
+    }
+
+
+}
+else
+{
+    <h1>Wellcome New User</h1>
+    <p>
+        Create your application? <a asp-area="" asp-controller="Applications" asp-action="Create">Start your application here</a>
+    </p>
+
+}

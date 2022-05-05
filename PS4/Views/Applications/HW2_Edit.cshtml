@@ -1,0 +1,51 @@
+﻿@*
+    Author: Haoran Geng
+    Partner:   None
+    Date:      9 / 12 / 2021
+    Course:    CS 4540, University of Utah, School of Computing
+    Copyright: CS 4540 and Haoran Geng - This work may not be copied for use in Academic Coursework.
+
+
+    File Contents:
+    The job request form page should allow the applicant to input all of the information that you show on the info page.
+*@
+@{
+
+}
+<form>
+    <div class="form-group">
+        <label class="application_bold" for="Email">Email address</label>
+        <input type="email" class="form-control" id="input_email" placeholder="name@example.com">
+    </div>
+    <div class="form-group">
+        <label class="application_bold" for="GPA">GPA</label>
+        <input type="text" class="form-control" id="input_GPA" placeholder="4.0">
+    </div>
+    <div class="form-group">
+        <label class="application_bold" for="formGroupExampleInput">Phone</label>
+        <input type="text" class="form-control" id="input_GPA" placeholder="123-456-7890">
+    </div>
+    <div class="form-group">
+        <label class="application_bold" for="Astatus">Academic Status</label>
+        <select class="form-control" id="input_Astatus">
+            <option value="" selected disabled>Please select</option>
+            <option>Graduate </option>
+            <option>Undergraduate </option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label class="application_bold" for="apply_course">Applying Course</label>
+        <select multiple class="form-control" id="apply_course_select">
+            <option>CS1410</option>
+            <option>CS3500</option>
+            <option>CS3505</option>
+            <option>CS4540</option>
+            <option>CS4150</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label class="application_bold" for="personal_statement">Personal Statement</label>
+        <textarea class="form-control" id="personal_statement" rows="4"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary" id="application_submit">Submit</button>
+</form>
